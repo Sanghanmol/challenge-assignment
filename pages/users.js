@@ -2,8 +2,18 @@ import React from 'react';
 import Footer from '../components/Footer';
 import TopNavbar from '../components/Navbar';
 import UserList from '../components/UserList';
+import { useUserData } from '../components/hooks/useUserData';
 
 export default function HomePage() {
+  const {
+    users,
+    columnFields,
+    handleOnSearch,
+    handleSort,
+    sortColumn,
+    sortDirection,
+  } = useUserData();
+
   return (
     <div
       style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}
@@ -14,7 +24,14 @@ export default function HomePage() {
           margin: '60px 0px 20px',
         }}
       >
-        <UserList />
+        <UserList
+          users={users}
+          columnFields={columnFields}
+          handleOnSearch={handleOnSearch}
+          handleSort={handleSort}
+          sortColumn={sortColumn}
+          sortDirection={sortDirection}
+        />
       </div>
       <Footer />
     </div>
