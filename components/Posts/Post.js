@@ -46,7 +46,8 @@ const Content = styled.div(() => ({
 
 const Button = styled.button(() => ({
   position: 'absolute',
-  bottom: 0,
+  top: '50%',
+  transform: 'translateY(-50%)',
   backgroundColor: 'rgba(255, 255, 255, 0.5)',
   border: 'none',
   color: '#000',
@@ -63,13 +64,50 @@ const NextButton = styled(Button)`
   right: 10px;
 `;
 
-const Post = ({ post }) => {
+const UserInfo = styled.div(() => ({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  padding: '10px',
+}));
+
+const UserAvatar = styled.div(() => ({
+  backgroundColor: 'grey',
+  color: '#fff',
+  width: '50px',
+  height: '50px',
+  borderRadius: '50%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  fontSize: '20px',
+  fontWeight: '700',
+  textTransform: 'uppercase',
+}));
+
+const UserDetails = styled.div(() => ({
+  display: 'flex',
+  flexDirection: 'column',
+  marginLeft: '8px',
+  
+  '& > span:first-of-type': {
+    fontWeight: 'bold',
+    fontSize: '16px',
+  },
+
+  '& > span:last-of-type': {
+    fontWeight: 'normal',
+    fontSize: '14px',
+  },
+}));
+
+const Post = ({ post, user}) => {
   const carouselRef = useRef(null);
 
   const handleNextClick = () => {
     if (carouselRef.current) {
       carouselRef.current.scrollBy({
-        left: 50,
+        left: 300,
         behavior: 'smooth',
       });
     }
@@ -78,14 +116,27 @@ const Post = ({ post }) => {
   const handlePrevClick = () => {
     if (carouselRef.current) {
       carouselRef.current.scrollBy({
-        left: -70,
+        left: -600,
         behavior: 'smooth',
       });
     }
   };
 
+  const getInitials = (name) => {
+    if (!name) return '';
+    const names = name.split(' ');
+    return names.map(n => n.charAt(0)).join('');
+  };
+
   return (
     <PostContainer>
+      <UserInfo>
+        <UserAvatar>{getInitials(user.name)}</UserAvatar>
+        <UserDetails>
+          <span>{user.name}</span>
+          <span>{user.email}</span>
+        </UserDetails>
+      </UserInfo>
       <CarouselContainer>
         <Carousel ref={carouselRef}>
           {post.images.map((image, index) => (
